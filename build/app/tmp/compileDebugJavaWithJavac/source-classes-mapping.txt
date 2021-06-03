@@ -1,0 +1,6 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/example/chatternet/MainActivity.java
+ com.example.chatternet.MainActivity
+com/example/chatternet/BuildConfig.java
+ com.example.chatternet.BuildConfig
