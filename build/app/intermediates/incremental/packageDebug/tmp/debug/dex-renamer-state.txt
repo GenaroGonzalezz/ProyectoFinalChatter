@@ -1,4 +1,4 @@
-#Tue Jun 01 22:58:11 PDT 2021
+#Thu Jun 10 21:53:49 PDT 2021
 base.2=C\:\\Users\\Gena4\\AndroidStudioProjects\\chatternet\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes3.dex
 path.2=classes3.dex
 base.1=C\:\\Users\\Gena4\\AndroidStudioProjects\\chatternet\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes2.dex

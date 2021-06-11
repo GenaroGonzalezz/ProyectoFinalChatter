@@ -2,16 +2,25 @@
   <library name="Dart SDK">
     <CLASSES>
       <root url="file://$DART_SDK$/lib/async" />
+      <root url="file://$DART_SDK$/lib/cli" />
       <root url="file://$DART_SDK$/lib/collection" />
       <root url="file://$DART_SDK$/lib/convert" />
       <root url="file://$DART_SDK$/lib/core" />
       <root url="file://$DART_SDK$/lib/developer" />
+      <root url="file://$DART_SDK$/lib/ffi" />
       <root url="file://$DART_SDK$/lib/html" />
+      <root url="file://$DART_SDK$/lib/indexed_db" />
       <root url="file://$DART_SDK$/lib/io" />
       <root url="file://$DART_SDK$/lib/isolate" />
+      <root url="file://$DART_SDK$/lib/js" />
+      <root url="file://$DART_SDK$/lib/js_util" />
       <root url="file://$DART_SDK$/lib/math" />
       <root url="file://$DART_SDK$/lib/mirrors" />
+      <root url="file://$DART_SDK$/lib/svg" />
       <root url="file://$DART_SDK$/lib/typed_data" />
+      <root url="file://$DART_SDK$/lib/web_audio" />
+      <root url="file://$DART_SDK$/lib/web_gl" />
+      <root url="file://$DART_SDK$/lib/web_sql" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

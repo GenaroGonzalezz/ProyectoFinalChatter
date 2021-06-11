@@ -130,7 +130,8 @@ class _ChatScreenState extends State<ChatScreen> {
             //Color(0xff226974)
           ]
         ),
-        title: Text(loggedInUser.email.toString()),
+        title: Text(
+            loggedInUser.displayName == null ? loggedInUser.email.toString() : loggedInUser.displayName.toString()),
         //backgroundColor: Color(0xff226974),
         //     backgroundColor: Colors.black
         // ),
@@ -261,7 +262,12 @@ class _ChatScreenState extends State<ChatScreen> {
                           color: Colors.lightBlue,
                         ),
                         padding: EdgeInsets.only( bottom: 20, top: 5, left: 5, right: 5),
-                        onPressed: () {
+                        onPressed: () async {
+                          Map<String, dynamic> messages = {
+                            "sendby": loggedInUser.displayName != null ? _auth.currentUser?.displayName : loggedInUser.email.toString(),
+                            "message": messageText,
+                            "time": FieldValue.serverTimestamp(),
+                          };
                             messageTextController.clear();
                             _firestore.collection('messages').add({
                               'text': messageText,
@@ -422,10 +428,17 @@ class MessageBubble extends StatelessWidget {
                     padding: EdgeInsets.only(left: 10, right: 9),
                     child: CircleAvatar(
                         backgroundColor: Colors.blueAccent,
-                        child: Text(
-                          sender[0].toUpperCase(),
+                        child: loggedInUser.photoURL == null ? (Text(sender[0].toUpperCase(),
                           style: TextStyle(color: Colors.white, fontSize: 18),
-                        )),
+                        )) : (ClipOval(
+                          child: Material(
+                            child: Image.network(
+                              loggedInUser.photoURL!,
+                              fit: BoxFit.fitHeight,
+                            ),
+                          ),
+                        ))
+                    ),
                   ),
                 ),
               //Mensaje
@@ -629,11 +642,11 @@ class SideDrawer extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     child: CircleAvatar(
                       // foregroundColor: Colors.blueAccent,
-                      child: Text(loggedInUser.email![0].toUpperCase()),
+                      child: loggedInUser.displayName == null ? Text(loggedInUser.email![0].toUpperCase()) : Text(loggedInUser.displayName![0].toUpperCase()),
                     ),
                   ),
                   Text(
-                    loggedInUser.email.toString(),
+                    loggedInUser.displayName == null ? loggedInUser.email.toString() : loggedInUser.displayName.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
@@ -643,8 +656,8 @@ class SideDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Color(0xff226974),
               borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)),
+                  bottomLeft: Radius.circular(1),
+                  bottomRight: Radius.circular(15)),
             ),
           ),
           Container(
@@ -671,15 +684,19 @@ class SideDrawer extends StatelessWidget {
           ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Cerrar sesión'),
-              onTap: () => {
-                _auth.signOut(),
+              onTap: () async => {
+                await _auth.signOut(),
                 Navigator.pushNamed(context, WelcomeScreen.id)
               }),
         ],
+
       ),
     );
   }
+
 }
+
+
 
 
 void clearText() {

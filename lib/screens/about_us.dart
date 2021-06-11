@@ -351,9 +351,9 @@ class _Integrante1State extends State<Integrante1> {
           decoration: BoxDecoration(
             border: Border.all(
               width: 5,
-              color: Colors.black12,
+              color: Color(0xFFff7b00),
             ),
-            color: Color(0xFF12d6ee),
+            color: Color(0xFF1e75a9),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Padding(padding: EdgeInsets.all(10),
@@ -380,7 +380,7 @@ class _Integrante1State extends State<Integrante1> {
                   "Gastelum Coronado \n Victor Manuel \n 16212008",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.black54,
+                    color: Colors.white,
                     fontSize: 15,
                   ),
                   textAlign: TextAlign.center,
@@ -422,9 +422,9 @@ class _Integrante2State extends State<Integrante2> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 5,
-                    color: Colors.black12,
+                    color: Color(0xFFff7b00),
                   ),
-                    color: Color(0xFF12d6ee),
+                    color: Color(0xFF1e75a9),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
@@ -452,7 +452,7 @@ class _Integrante2State extends State<Integrante2> {
                         "Gonzalez Sepulveda \n Genaro Eugenio \n 16212017",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black54,
+                          color: Colors.white,
                           fontSize: 15,
                         ),
                         textAlign: TextAlign.center,
@@ -496,9 +496,9 @@ class _Integrante3State extends State<Integrante3> {
             decoration: BoxDecoration(
               border: Border.all(
                 width: 5,
-                color: Colors.black12,
+                color: Color(0xFFff7b00),
               ),
-              color: Color(0xFF12d6ee),
+              color: Color(0xFF1e75a9),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(padding: EdgeInsets.all(10),
@@ -525,7 +525,7 @@ class _Integrante3State extends State<Integrante3> {
                     "Loera Rodriguez \n Jose Manuel \n 16212027",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black54,
+                      color: Colors.white,
                       fontSize: 15,
                     ),
                     textAlign: TextAlign.center,
@@ -566,9 +566,9 @@ class _Integrante4State extends State<Integrante4> {
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 5,
-                  color: Colors.black12,
+                  color: Color(0xffff7b00),
                 ),
-                  color: Color(0xFF12d6ee),
+                  color: Color(0xFF1e75a9),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(padding: EdgeInsets.all(10),
@@ -580,7 +580,7 @@ class _Integrante4State extends State<Integrante4> {
 
                       Container(
                         decoration: BoxDecoration(
-                            color: Colors.black12,
+                            color: Colors.white,
                             shape: BoxShape.circle,
                             border: new Border.all(color: Color(0xFFff7b00), width: 4.0)
 
@@ -596,7 +596,7 @@ class _Integrante4State extends State<Integrante4> {
                         "Ortiz Vasquez \n Luis Fernando \n 16212059",
                          style: TextStyle(
                            fontWeight: FontWeight.bold,
-                           color: Colors.black54,
+                           color: Colors.white,
                            fontSize: 15,
                          ),
                         textAlign: TextAlign.center,
@@ -637,9 +637,9 @@ class _InformacionEquipoState extends State<InformacionEquipo> {
               decoration: BoxDecoration(
                 border: Border.all(
                   width: 5,
-                  color: Colors.black12,
+                  color: Color(0xffff7b00),
                 ),
-                color: Color.fromRGBO(80, 197, 182, 1),
+                color: Color(0xff1e75a9),//Color.fromRGBO(80, 197, 182, 1),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(padding: EdgeInsets.all(10),
@@ -655,7 +655,7 @@ class _InformacionEquipoState extends State<InformacionEquipo> {
                       "Diseño de interfaces UI/UX \n Febrero-Junio 2021 \n Proyecto Final: Chatternoot para mensajería instantánea",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black54,
+                        color: Colors.white,
                         fontSize: 18,
                       ),
                       textAlign: TextAlign.center,

@@ -65,7 +65,7 @@ const kTextFieldPassword = InputDecoration(
         hoverColor: Colors.white,
         enabled: true,
         filled: true,
-        // errorText:  _validate ? 'Value Can\'t Be Empty' : null,
+        //errorText:  _validate ? 'Value Can\'t Be Empty' : null,
 
         prefixIcon: Icon(Icons.lock_outline, color: Colors.white70),
         hintStyle: TextStyle(color: Colors.white70),

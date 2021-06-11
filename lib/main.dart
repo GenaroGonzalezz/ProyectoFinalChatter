@@ -2,6 +2,7 @@
 import 'package:chatternet/screens/about_us.dart';
 import 'package:chatternet/screens/configuracion.dart';
 import 'package:chatternet/screens/home.dart';
+import 'package:chatternet/screens/newChatScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:chatternet/screens/welcome_screen.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -12,7 +13,7 @@ import 'package:chatternet/screens/chat_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'helper/helperfunctions.dart';
-
+import 'package:chatternet/screens/newChatScreen.dart';
 
 void main() async{
    WidgetsFlutterBinding.ensureInitialized();
@@ -68,7 +69,7 @@ class _ChatternootState extends State<Chatternoot> {
           Configuracion.id: (context) => Configuracion(),
           Acerca.id: (context) => Acerca(),
           Home.id: (context) => Home(),
-
+         // NewChat.id: (context) => NewChat(chatRoomId: ,),
         });
   }
 }

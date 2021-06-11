@@ -60,4 +60,5 @@ allprojects {
         options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     }
 }
+
 apply plugin: 'com.google.gms.google-services'

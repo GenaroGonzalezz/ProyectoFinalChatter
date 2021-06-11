@@ -13,6 +13,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
+import 'newChatScreen.dart';
 // ignore: must_be_immutable
 
 class Home extends StatefulWidget {
@@ -40,7 +41,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(onPressed: () {print("Yes");}, label: Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton.extended(onPressed: () {
+        //Navigator.pushNamed(context, ChatRoom.id);
+        print("Yes");}, label: Icon(Icons.add)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       drawer: SideDrawer(),
       appBar: NewGradientAppBar(
@@ -180,11 +183,16 @@ class _ChatsState extends State<Chats> {
                     //Icon(Icons.add),
                     Padding(padding: EdgeInsets.all(10)),
                     Material(
-                      child: Text(loggedInUser.email.toString(), style: TextStyle(
+                      child: loggedInUser.displayName == null ?
+                      (Text(loggedInUser.email.toString(), style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,),)
+                      ):
+                      (Text(loggedInUser.displayName.toString(), style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
-                      ),
+                      )),
 
                     ),
                     //Flexible(child: Text(loggedInUser.displayName.toString())),

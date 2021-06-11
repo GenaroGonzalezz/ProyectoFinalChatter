@@ -3,11 +3,11 @@ import 'package:chatternet/screens/chat_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
-//import 'package:chatternet/constants.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:firebase_core/firebase_core.dart';
-//import 'welcome_screen.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chatternet/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'welcome_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Configuracion extends StatefulWidget {
   static const id = 'configuracion';
@@ -19,12 +19,34 @@ class Configuracion extends StatefulWidget {
 class _ConfiguracionState extends State<Configuracion> {
   bool showPassword = false;
 
+  bool isLoading = false;
+  bool _displayNameValid = true;
+  final _scaffoldkey = GlobalKey<ScaffoldState>();
   TextEditingController _usernameController = TextEditingController();
-
+User? user;
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+  getUser() async {
+    setState(() {
+      isLoading = true;
+    });
+    // DocumentSnapshot doc = await usersRef.document(widget.currentUserId).get();
+    // user = User.fromDocument(doc);
+    // displayNameController.text = user.displayName;
+    // bioController.text = user.bio;
+    setState(() {
+      isLoading = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       appBar: NewGradientAppBar(
+        title: Text("Editar Perfil"),
         gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -62,9 +84,6 @@ class _ConfiguracionState extends State<Configuracion> {
           onTap: (){FocusScope.of(context).unfocus();},
           child: ListView(
             children: [
-              Text("Editar Perfil",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500 ),
-              ),
               SizedBox(
                 height: 15,
               ),
@@ -77,7 +96,7 @@ class _ConfiguracionState extends State<Configuracion> {
                       decoration: BoxDecoration(
                         border: Border.all(
                           width: 4,
-                          color: Theme.of(context).scaffoldBackgroundColor,
+                          color: Color(0xFFff7b00),
                         ),
                         boxShadow: [
                           BoxShadow(
@@ -94,23 +113,27 @@ class _ConfiguracionState extends State<Configuracion> {
                     Positioned(
                         bottom: 0,
                         right: 0,
-                        child: Container(
+                        child: Material(
+                          child: Container(
                       height: 40,
                       width: 40,
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          width: 4,
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                        ),
-                          color: Colors.blueAccent,
-                      ),
-                          child: IconButton(
-                            padding: EdgeInsets.only(bottom: 0),
-                            color: Colors.white,
-                            onPressed: (){}, icon: Icon(Icons.edit),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 4,
+                            color: Color(0xFFff7b00),
                           ),
-                    ))
+                            color: Color(0xFFff7b00),
+                      ),
+                            child: IconButton(
+                              padding: EdgeInsets.only(bottom: 0),
+                              color: Colors.white,
+                              onPressed: (){}, icon: Icon(Icons.edit),
+                            ),
+                    ),
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                        ))
                   ],
                 ),
               ),
@@ -121,7 +144,7 @@ class _ConfiguracionState extends State<Configuracion> {
                 controller: _usernameController,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.only(bottom: 3),
-                  labelText: loggedInUser.displayName == null ? 'Nombre' : loggedInUser.displayName,
+                  labelText: 'Nombre:',
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   hintText: loggedInUser.displayName == null ? 'Agrega tu nombre' : loggedInUser.displayName,
                   hintStyle: TextStyle(
@@ -141,7 +164,7 @@ class _ConfiguracionState extends State<Configuracion> {
                     hintStyle: TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold,
                       color: Colors.black,
-                    )
+                    ),
                 ),
               ),
               SizedBox(height: 25),
@@ -158,11 +181,14 @@ class _ConfiguracionState extends State<Configuracion> {
                     onPressed: (){},child: Text("Cancelar", style: TextStyle(fontSize: 14, letterSpacing: 2.2, color: Colors.black),),
 
                   ),
-                  RaisedButton(onPressed: () async{
+                  RaisedButton(onPressed: () {
                     print('Nombre: ${_usernameController.text}');
-                    await loggedInUser.updateProfile(displayName: _usernameController.text);
-                  },
-                    color: Colors.blueAccent,
+                    // await loggedInUser.updateProfile(displayName: _usernameController.text);
+                    setState(() {
+                      updateProfile();
+                    });
+                    },
+                    color: Color(0xFF1e75a9),
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -172,6 +198,7 @@ class _ConfiguracionState extends State<Configuracion> {
                   ),
                   ),
                   )
+
                 ],
               ),
             ],
@@ -201,8 +228,32 @@ class _ConfiguracionState extends State<Configuracion> {
                   hintStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.bold,
                     color: Colors.black,
-                  )
+                  ),
+                  enabled: false,
               ),
             );
+  }
+  void updateProfile() {
+    setState(() {
+      loggedInUser.updateProfile(displayName: _usernameController.text);
+
+      _usernameController.text
+          .trim()
+          .length < 3 ||
+          _usernameController.text.isEmpty
+          ? _displayNameValid = false
+          : _displayNameValid = true;
+
+      loggedInUser.updateProfile(displayName: _usernameController.text);
+    });
+     if (_displayNameValid) {
+    //   usersRef.document(widget.currentUserId).updateData({
+    //     "displayName": _usernameController.text,
+    //   });
+
+      SnackBar snack = SnackBar(content: Text('Perfil Actualizado'));
+      // _scaffoldkey.currentState!.showSnackBar(snack);
+      ScaffoldMessenger.of(context).showSnackBar(snack);
+    }
   }
 }

@@ -35,6 +35,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  User? loggedInUser = FirebaseAuth.instance.currentUser;
+
+  bool? isAccountGoogle;
+
   TextEditingController emailEditingController = new TextEditingController();
   TextEditingController passwordEditingController = new TextEditingController();
   final _text = TextEditingController();
@@ -114,6 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
     User? user;
     bool isSignedIn = await _googleSignIn.isSignedIn();
       await _googleSignIn.signIn();
+
       MaterialPageRoute(
           builder: (context) =>
               ChatScreen());

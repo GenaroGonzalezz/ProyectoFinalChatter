@@ -5,6 +5,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:chatternet/screens/home.dart';
 import 'package:chatternet/screens/welcome_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import "package:http/http.dart" as http;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:chatternet/constants.dart';
@@ -17,6 +18,8 @@ import 'chat_screen.dart';
 //import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:chatternet/screens/configuracion.dart';
+import 'chat_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registration_screen';
@@ -25,8 +28,20 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+
+  bool isLoading = false;
+  bool _displayNameValid = true;
+
+  User? loggedInUser = FirebaseAuth.instance.currentUser;
+
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
+  String? username;
+
   GoogleSignInAccount? _currentUser;
   String _contactText = '';
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late Firebase auth;
   bool isUserSignedIn = false;
@@ -113,7 +128,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
   Future<void> _handleSignIn() async {
     User? user;
-    await _googleSignIn.signIn();
+    //await _googleSignIn.signIn();
     bool isSignedIn = await _googleSignIn.isSignedIn();
     if (isSignedIn){
       MaterialPageRoute(
@@ -170,6 +185,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return GestureDetector(
       onTap: (){FocusScope.of(context).requestFocus(FocusNode());}, //Si tocas cualquier otro lugar se esconde el teclado c:
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title:  Text("Regístrate"),
           //backgroundColor: Color(0xff1a888b),
@@ -245,7 +261,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   },
                   decoration: //kTextFieldDecoration.copyWith(
                       //hintText: 'Ingrese su correo electrónico'),
-                  kTextFieldCorreo,
+                  kTextFieldCorreo.copyWith(
+                    errorText:  _displayNameValid ? null : 'No es un correo válido'
+                  ),
                 ),
                 SizedBox(
                   height: 8.0,
@@ -264,8 +282,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   decoration: //kTextFieldDecoration.copyWith(
                       // hintText: 'Ingrese su contraseña',
                       // prefixIcon: Icon(Icons.lock_outline, color: Colors.grey)
-                  kTextFieldPassword,
-
+                  kTextFieldPassword.copyWith(
+                    errorText: _displayNameValid ? null : 'No es una contraseña válida'
+                  ),
                 ),
 
 
@@ -291,17 +310,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           showSpinner = true;
                         });
                          print("Se registró" + email);
-
+                         FirebaseFirestore _firestore = FirebaseFirestore.instance;
                         try {
+                          //NewUser es result
+
                           final UserCredential newUser =
                           await _auth.createUserWithEmailAndPassword(
                                email: email, password: password);
-
-                          
+                          User? user = newUser.user;
+                          // await FirebaseFirestore.instance.collection('users')
+                          //     .doc(user?.uid).setData({ 'username': _username});
                           // ignore: unnecessary_null_comparison
                           if (newUser != null) {
                             Navigator.pushNamed(context, Home.id);
+                            print("Cuenta creada exitosamente");
+
+                            await _firestore.collection('users').doc(_auth.currentUser?.uid).set(
+                                {
+                                  "Nombre": loggedInUser?.displayName.toString(),
+                                  "email": email,
+                                  "status": "No disponible",
+                                });
                           }
+                          submit();
                           // ignore: unnecessary_null_comparison
                           setState(() {
                             showSpinner = false;
@@ -380,6 +411,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
 
   }
+
   Widget _buildBody() {
     GoogleSignInAccount? user = _currentUser;
     if (user != null) {
@@ -426,13 +458,37 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
         ],
       );
+
     }
+
+
   }
+
 
   Future<User> getUser() async{
     return  _auth.currentUser!;
   }
+
+   void submit() {
+    final form = _formKey.currentState;
+
+    if (form!.validate()) {
+      form.save();
+      SnackBar snackbar = SnackBar(content: Text("Bienvenido $loggedInUser.email.toString()!"));
+      _scaffoldKey.currentState!.showSnackBar(snackbar);
+      Timer(Duration(seconds: 2), () {
+        Navigator.pop(context, loggedInUser!.email.toString());
+      });
+    }
+     SnackBar snack = SnackBar(content: Text('Bienvenido $loggedInUser.email'));
+     // _scaffoldkey.currentState!.showSnackBar(snack);
+     ScaffoldMessenger.of(context).showSnackBar(snack);
+   }
+
 }
+
+
+
 
 // void _showButtonPressDialog(BuildContext context, String provider) {
 //   Scaffold.of(context).showSnackBar(SnackBar(
